@@ -109,7 +109,13 @@ func (c *RetryClient) ExecutePayment(ctx context.Context, req *http.Request) (*h
 			closeResponse(resp)
 
 			wait := c.backoff(attempt)
-			logger.Printf("Attempt %d failed: waiting %s...", attempt, wait)
+			if err != nil {
+				logger.Printf("Attempt %d failed: %v; waiting %s...", attempt, err, wait)
+			} else if resp != nil {
+				logger.Printf("Attempt %d failed: status %d %s; waiting %s...", attempt, resp.StatusCode, http.StatusText(resp.StatusCode), wait)
+			} else {
+				logger.Printf("Attempt %d failed: no response; waiting %s...", attempt, wait)
+			}
 
 			if wait > 0 {
 				timer := time.NewTimer(wait)

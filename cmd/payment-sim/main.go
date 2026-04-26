@@ -86,6 +86,7 @@ func runRetryDemo(logger *log.Logger) {
 	defer resp.Body.Close()
 
 	body, _ := io.ReadAll(resp.Body)
+	logger.Printf("Retry demo status: %d %s", resp.StatusCode, http.StatusText(resp.StatusCode))
 	logger.Printf("Retry demo response: %s", strings.TrimSpace(string(body)))
 }
 

@@ -1,0 +1,14 @@
+package entity
+
+import (
+	"github.com/google/uuid"
+)
+
+type User struct {
+	ID       uuid.UUID `db:"id" json:"id"`
+	Username string    `db:"username" json:"username"`
+	Email    string    `db:"email" json:"email"`
+	Password string    `db:"password" json:"-"`
+	Role     string    `db:"role" json:"role"`
+	Verified bool      `db:"verified" json:"verified"`
+}
